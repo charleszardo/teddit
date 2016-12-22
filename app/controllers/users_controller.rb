@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
 
     if @user.save
-      login_user!(user)
+      login_user!(@user)
       redirect_to root_url
     else
       flash[:errors] = "user creation error"

@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
+  has_many :subs
+
   after_initialize :ensure_session_token
 
   def self.find_by_username_and_password(username, password)

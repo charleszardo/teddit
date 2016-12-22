@@ -13,5 +13,18 @@
 <label for="post_content">Content</label>
 <textarea name="post[content]" rows="20" cols="80" id="post_content"><%= post.content %></textarea>
 <br>
+<h4>Sub(s)</h4>
+<input type="hidden" name="post[sub_ids][]" value="">
+<% Sub.all.each do |sub| %>
+  <label>
+    <input type="checkbox"
+           name="post[sub_ids][]"
+           value="<%= sub.id %>"
+           <%= "checked" if post.sub_ids.include?(sub.id) %>>
+    <%= sub.title %>
+  </label>
+  <br>
+<% end %>
+<br>
 <input type="submit" value="submit">
 </form>

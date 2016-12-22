@@ -1,7 +1,7 @@
 class Posting < ActiveRecord::Base
-  validates :post_id, :sub_id, presence: true
-  validates :post_id, uniqueness: { scope: :sub_id }
+  validates :post, :sub, presence: true
+  validates :post, uniqueness: { scope: :sub_id }
 
-  belongs_to :post
-  belongs_to :sub
+  belongs_to :post, inverse_of: :postings
+  belongs_to :sub, inverse_of: :postings
 end

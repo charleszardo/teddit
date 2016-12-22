@@ -9,11 +9,9 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-    @post.author = current_user
-
+    @post = current_user.posts.new(post_params)
+    
     if @post.save
-      Posting.create!(sub_id: params[:sub_id], post_id: @post.id)
       redirect_to sub_url(@post.subs.first)
     else
       flash[:errors] = "sub creation error"
@@ -57,6 +55,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:title, :url, :content)
+    params.require(:post).permit(:title, :url, :content, sub_ids: [])
   end
 end

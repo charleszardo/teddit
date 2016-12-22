@@ -1,2 +1,6 @@
 <h1><%= @sub.title %></h1>
 <p><%= @sub.description %></p>
+<% if @sub.is_owner?(current_user) %>
+<%= link_to "Edit", edit_sub_url(@sub) %>
+<%= link_to "Delete", sub_url(@sub), method: :delete %>
+<% end %>

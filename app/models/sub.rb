@@ -1,8 +1,8 @@
 class Sub < ActiveRecord::Base
   validates :title, presence: true, uniqueness: true
-  validates :moderator, presence: trues
+  validates :moderator, presence: true
 
-  belongs_to :moderator
+  belongs_to :moderator, class_name: "User"
 
   def is_owner?(user)
     self.moderator == user

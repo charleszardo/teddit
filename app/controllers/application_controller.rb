@@ -22,4 +22,24 @@ class ApplicationController < ActionController::Base
   def logged_in?
     !current_user.nil?
   end
+
+  private
+  def require_login
+    unless current_user
+      redirect_to root_url
+    end
+  end
+
+  def require_no_login
+    if current_user
+      redirect_to root_url
+    end
+  end
+
+  def require_owner
+    item = Object.const_get(controller_name.classify).find(params[:id])
+    unless item.is_owner?(current_user)
+      redirect_to root_url
+    end
+  end
 end

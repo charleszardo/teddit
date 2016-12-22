@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   attr_reader :password
 
   has_many :subs
+  has_many :posts
 
   after_initialize :ensure_session_token
 

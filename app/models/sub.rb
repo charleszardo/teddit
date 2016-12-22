@@ -3,6 +3,7 @@ class Sub < ActiveRecord::Base
   validates :moderator, presence: true
 
   belongs_to :moderator, class_name: "User"
+  has_many :subs
 
   def is_owner?(user)
     self.moderator == user

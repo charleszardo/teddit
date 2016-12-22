@@ -19,6 +19,16 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user
+      logout_user!(current_user)
+    else
+      flash[:errors] = "no one's logged in..."
+    end
+
+    redirect_to root_url
+  end
+
   private
   def session_params
     params.require(:user).permit(:username, :password)

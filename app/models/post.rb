@@ -1,7 +1,8 @@
 class Post < ActiveRecord::Base
-  validates :title, :sub, :author, presence: true
+  validates :title, :author, presence: true
 
-  belongs_to :sub
+  has_many :subs, through: :postings
+  has_many :postings
   belongs_to :author, class_name: "User"
 
   def author_name

@@ -11,13 +11,13 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.author = current_user
-    @post.sub_id = params[:sub_id]
 
     if @post.save
-      redirect_to sub_url(@post.sub)
+      Posting.create!(sub_id: params[:sub_id], post_id: @post.id)
+      redirect_to sub_url(@post.subs.first)
     else
       flash[:errors] = "sub creation error"
-      redirect_to new_sub_url
+      render :new
     end
   end
 
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update_attributes(post_params)
-      redirect_to sub_url(@post.sub)
+      redirect_to post_url(@post)
     else
       flash[:errors] = "post edit error"
       redirect_to edit_post_url(@post)
@@ -51,7 +51,7 @@ class PostsController < ApplicationController
       redirect_to subs_url
     else
       flash[:errors] = "cannot delete sub"
-      redirect_to sub_url(@post.sub)
+      redirect_to post_url(@post)
     end
   end
 

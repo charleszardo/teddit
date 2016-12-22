@@ -9,14 +9,24 @@
 <body>
 <header>
 <% if logged_in? %>
-<h3>Welcome, <%= current_user.username %></h3>
-<%= button_to "log out", session_url, method: :delete %>
+  <h3>Welcome, <%= current_user.username %></h3>
+  <%= button_to "log out", session_url, method: :delete %>
 <% else %>
-<%= link_to "sign up", new_user_url %>
-<%= link_to "sign in", new_session_url %>
+  <%= link_to "sign up", new_user_url %>
+  <%= link_to "sign in", new_session_url %>
 <% end %>
 </header>
+
 <%= yield %>
 
+<footer>
+  <% if current_page?("/") || current_page?("/subs") %>
+    <% if logged_in? %>
+      <%= link_to "Add Sub", new_sub_url %>
+    <% end %>
+  <% else %>
+    <%= link_to "Home", root_url %>
+  <% end %>
+</footer>
 </body>
 </html>

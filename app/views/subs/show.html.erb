@@ -1,6 +1,15 @@
 <h1><%= @sub.title %></h1>
 <p><%= @sub.description %></p>
+<ul>
+  <% @sub.posts.each do |post| %>
+    <%= link_to post.title, post_url(post) %>
+  <% end %>
+</ul>
+<% if logged_in? %>
+  <%= link_to "add post", new_sub_post_url(@sub.id) %>
+  <br>
+<% end %>
 <% if @sub.is_owner?(current_user) %>
-<%= link_to "Edit", edit_sub_url(@sub) %>
-<%= link_to "Delete", sub_url(@sub), method: :delete %>
+  <%= link_to "Edit", edit_sub_url(@sub) %>
+  <%= link_to "Delete", sub_url(@sub), method: :delete %>
 <% end %>

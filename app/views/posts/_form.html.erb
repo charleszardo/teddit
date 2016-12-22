@@ -1,4 +1,4 @@
-<% action = post.persisted? ? post_url(post) : posts_url %>
+<% action = post.persisted? ? post_url(post) : sub_posts_url %>
 <% method = post.persisted? ? :patch : :post %>
 
 <form action="<%= action %>" method="post">

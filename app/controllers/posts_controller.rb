@@ -11,6 +11,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.author = current_user
+    @post.sub_id = params[:sub_id]
 
     if @post.save
       redirect_to sub_url(@post.sub)

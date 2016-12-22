@@ -1,13 +1,9 @@
 class SessionsController < ApplicationController
   def new
-    @session = Session.new
-
     render :new
   end
 
   def create
-    @session = Session.new(session_params)
-
     user = User.find_by_username_and_password(session_params[:username],
                                               session_params[:password])
     if user

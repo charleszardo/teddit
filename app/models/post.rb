@@ -2,10 +2,12 @@ class Post < ActiveRecord::Base
   validates :title, :author, presence: true
   validates :subs, length: { minimum: 1 , message: "please select at least one sub"}
 
+  belongs_to :author, class_name: "User"
+
   has_many :postings, dependent: :destroy, inverse_of: :post
   has_many :subs, through: :postings, source: :sub
   has_many :comments
-  belongs_to :author, class_name: "User"
+  has_many :votes, as: :votable
 
   def author_name
     self.author.username

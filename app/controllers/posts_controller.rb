@@ -10,7 +10,7 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    fail
+    
     if @post.save
       redirect_to sub_url(@post.subs.first)
     else

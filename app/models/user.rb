@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :subs
   has_many :posts, foreign_key: :author_id
+  has_many :comments, foreign_key: :author_id
 
   after_initialize :ensure_session_token
 

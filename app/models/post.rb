@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
   validates :title, :author, presence: true
+  validates :subs, length: { minimum: 1 , message: "please select at least one sub"}
 
   has_many :postings, dependent: :destroy, inverse_of: :post
   has_many :subs, through: :postings, source: :sub

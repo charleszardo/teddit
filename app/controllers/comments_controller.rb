@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   def new
     @comment = Comment.new
+    @post_id = params[:post_id]
 
     render :new
   end
@@ -18,6 +19,6 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content, :post_id)
   end
 end

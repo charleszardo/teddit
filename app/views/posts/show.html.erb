@@ -9,6 +9,15 @@
     <li><%= link_to sub.title, sub_url(sub) %></li>
   <% end %>
 </ul>
+<h3>comments</h3>
+<ul>
+  <% @post.comments.each do |comment| %>
+    <li><%= comment.content %></li>
+  <% end %>
+</ul>
+<% if current_user %>
+  <%= link_to "add comment", new_post_comment_url(@post.id) %>
+<% end %>
 <p><%= @post.content %></p>
 <% if @post.is_owner?(current_user) %>
   <%= link_to "Edit", edit_post_url(@post) %>

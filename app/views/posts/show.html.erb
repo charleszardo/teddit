@@ -10,8 +10,10 @@
   <% end %>
 </ul>
 <h3>comments</h3>
-<% @post.comments.where(parent_comment_id: nil).each do |comment| %>
-  <%= render "comments/comment", comment: comment %>
+<% @all_comments.each do |comment| %>
+  <% if comment.parent_comment_id.nil? %>
+    <%= render "comments/comment", comment: comment, all_comments: @all_comments %>
+  <% end %>
 <% end %>
 <% if current_user %>
   <%= link_to "add comment", new_post_comment_url(@post.id) %>

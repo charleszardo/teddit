@@ -10,7 +10,7 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    
+
     if @post.save
       redirect_to sub_url(@post.subs.first)
     else
@@ -38,6 +38,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @all_comments = @post.comments.includes(:author)
 
     render :show
   end

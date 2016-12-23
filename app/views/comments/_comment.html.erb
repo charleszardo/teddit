@@ -1,8 +1,13 @@
 <p><%= comment.content %></p>
 <p><%= link_to "link", comment_url(comment) %></p>
-<p>by <%= link_to comment.author_username, user_url(comment.author) %></p>
+<p>by <%= link_to comment.author.username, user_url(comment.author) %></p>
+<p><%= comment.created_at.strftime('%m/%d/%Y') %></p>
 <ul>
-<% comment.child_comments.each do |comment| %>
-  <li><%= render "comments/comment", comment: comment %></li>
+<% all_comments.each do |child_comment| %>
+  <% if child_comment.parent_comment == comment %>
+    <li>
+      <%= render "comments/comment", comment: child_comment, all_comments: all_comments %>
+    </li>
+  <% end %>
 <% end %>
 </ul>

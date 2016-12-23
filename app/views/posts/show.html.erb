@@ -10,11 +10,15 @@
   <% end %>
 </ul>
 <h3>comments</h3>
-<% @all_comments.each do |comment| %>
-  <% if comment.parent_comment_id.nil? %>
-    <%= render "comments/comment", comment: comment, all_comments: @all_comments %>
+<ul>
+  <% comments_by_parent = @post.comments_by_parent %>
+  <% top_level_comments = comments_by_parent[nil] %>
+  <% top_level_comments.each do |top_level_comment| %>
+    <li><%= render("comments/comment",
+            comment: top_level_comment,
+            comments_by_parent: comments_by_parent) %></li>
   <% end %>
-<% end %>
+</ul>
 <% if current_user %>
   <%= link_to "add comment", new_post_comment_url(@post.id) %>
 <% end %>

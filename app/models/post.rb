@@ -18,4 +18,14 @@ class Post < ActiveRecord::Base
   def is_owner?(user)
     self.author == user
   end
+
+  def comments_by_parent
+    comments_hash = Hash.new { |h, k| h[k] = []}
+
+    self.comments.includes(:author).each do |comment|
+      comments_hash[comment.parent_comment_id] << comment
+    end
+
+    comments_hash
+  end
 end

@@ -3,11 +3,9 @@
 <p>by <%= link_to comment.author.username, user_url(comment.author) %></p>
 <p><%= comment.created_at.strftime('%m/%d/%Y') %></p>
 <ul>
-<% all_comments.each do |child_comment| %>
-  <% if child_comment.parent_comment == comment %>
-    <li>
-      <%= render "comments/comment", comment: child_comment, all_comments: all_comments %>
-    </li>
-  <% end %>
+<% (comments_by_parent[comment.id] || []).each do |child_comment| %>
+    <li><%= render("comments/comment",
+            comment: child_comment,
+            comments_by_parent: comments_by_parent) %></li>
 <% end %>
 </ul>

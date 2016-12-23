@@ -11,8 +11,8 @@
 </ul>
 <h3>comments</h3>
 <ul>
-  <% @post.comments.each do |comment| %>
-    <li><%= comment.content %></li>
+  <% @post.comments.where(parent_comment_id: nil).each do |comment| %>
+    <li><%= comment.content %><%= link_to "comment url", comment_url(comment) %></li>
   <% end %>
 </ul>
 <% if current_user %>

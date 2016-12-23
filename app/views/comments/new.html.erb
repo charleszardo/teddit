@@ -1,6 +1,7 @@
 <form action="<%= comments_url %>" method="post">
   <%= auth_token %>
   <input type="hidden" name="comment[post_id]" value="<%= @post_id %>">
+  <input type="hidden" name="comment[parent_comment_id]" value="<%= @parent_comment_id %>">
   <label for="comments_content">Comment</label>
   <textarea name="comment[content]" rows="8" cols="80" id="comments_content"></textarea>
   <input type="submit" value="submit">

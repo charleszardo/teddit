@@ -1,0 +1,2 @@
+<p><%= @comment.content %></p>
+<%= link_to "add comment", new_post_comment_url(@comment.post, parent_comment_id: @comment.id) %>

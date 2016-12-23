@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+#logo {
+  font-family: Helvetica Neue, Helvetica;
+  color: rgb(230,43,30)
+}

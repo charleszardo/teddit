@@ -20,8 +20,14 @@ class Comment < ActiveRecord::Base
 
   has_many :child_comments, class_name: "Comment", foreign_key: :parent_comment_id
   has_many :votes, as: :votable
-  
+
   def author_username
     self.author.username
+  end
+
+  def score
+    Vote.select("value")
+        .where(votable_id: self.id, votable_type: self.class.to_s)
+        .inject(0) { |sum, num| sum + num.value }
   end
 end

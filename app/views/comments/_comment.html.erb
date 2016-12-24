@@ -2,8 +2,11 @@
 <p><%= link_to "link", comment_url(comment) %></p>
 <p>by <%= link_to comment.author.username, user_url(comment.author) %></p>
 <p><%= comment.created_at.strftime('%m/%d/%Y') %></p>
+<p>score: <%= comment.score %></p>
+<%= link_to "upvote", upvote_comment_url(comment.id), method: :post %>
+<%= link_to "downvote", downvote_comment_url(comment.id), method: :post %>
 <ul>
-<% (comments_by_parent[comment.id] || []).each do |child_comment| %>
+<% (comments_by_parent[comment.id] || []).sort_by { |comment| comment.score }.reverse!.each do |child_comment| %>
     <li><%= render("comments/comment",
             comment: child_comment,
             comments_by_parent: comments_by_parent) %></li>

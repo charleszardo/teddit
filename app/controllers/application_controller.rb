@@ -42,4 +42,23 @@ class ApplicationController < ActionController::Base
       redirect_to root_url
     end
   end
+
+  def vote(value)
+    vote_hash = { voter_id: current_user.id,
+                  votable_id: params[:id],
+                  votable_type: params[:controller].classify }
+
+    vote = Vote.find_by(vote_hash)
+    vote ? update_vote(vote, value) : new_vote(vote_hash, value)
+  end
+
+  def update_vote(vote, value)
+    vote.value = vote.value == value ? 0 : value
+    vote.save
+  end
+
+  def new_vote(vote_hash, value)
+    vote_hash[:value] = value
+    Vote.create!(vote_hash)
+  end
 end

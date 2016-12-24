@@ -62,28 +62,13 @@ class PostsController < ApplicationController
   end
 
   private
-  def vote(value)
-    vote_hash = { voter_id: current_user.id,
-                  votable_id: params[:id],
-                  votable_type: params[:controller].classify }
-
-    vote = Vote.find_by(vote_hash)
-    vote ? update_vote(vote) : new_vote(vote_hash, value)
-
-    redirect_to url_for(controller: params[:controller], id: params[:id], action: 'show')
-  end
-
-  def update_vote(vote)
-    vote.value = vote.value == value ? 0 : value
-    vote.save
-  end
-
-  def new_vote(vote_hash, value)
-    vote_hash[:value] = value
-    Vote.create!(vote_hash)
-  end
-
   def post_params
     params.require(:post).permit(:title, :url, :content, sub_ids: [])
+  end
+
+  def vote(value)
+    super
+
+    redirect_to url_for(controller: params[:controller], id: params[:id], action: 'show')
   end
 end

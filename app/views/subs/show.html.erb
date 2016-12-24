@@ -3,7 +3,7 @@
 <p><%= @sub.description %></p>
 <h4>Posts</h4>
 <ul>
-  <% @sub.posts.each do |post| %>
+  <% @sub.posts.sort_by { |post| post.score }.reverse!.each do |post| %>
     <li><%= link_to post.title, post_url(post) %><%= "(#{post.score})" %></li>
   <% end %>
 </ul>

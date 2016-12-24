@@ -11,7 +11,16 @@ Rails.application.routes.draw do
 
   resources :posts, only: [:show, :edit, :update, :destroy] do
     resources :comments, only: [:new]
+    member do
+      post :upvote
+      post :downvote
+    end
   end
 
-  resources :comments, only: [:create, :show]
+  resources :comments, only: [:create, :show] do
+    member do
+      post :upvote
+      post :downvote
+    end
+  end
 end

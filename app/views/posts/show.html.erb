@@ -3,6 +3,9 @@
   <h3><%= link_to "url", @post.url %></h3>
 <% end %>
 <h3>by <%= link_to @post.author_name, user_url(@post.author) %></h3>
+<h3>score: <%= @post.score %></h3>
+<%= link_to "upvote", upvote_post_url(@post.id), method: :post %>
+<%= link_to "downvote", downvote_post_url(@post.id), method: :post %>
 <h3>subs</h3>
 <ul>
   <% @post.subs.each do |sub| %>

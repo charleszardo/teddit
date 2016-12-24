@@ -53,7 +53,33 @@ class PostsController < ApplicationController
     end
   end
 
+  def upvote
+    vote(1)
+  end
+
+  def downvote
+    vote(-1)
+  end
+
   private
+  def vote(value)
+    vote_hash = { voter_id: current_user.id,
+                  votable_id: params[:id],
+                  votable_type: params[:controller].classify }
+
+    vote = Vote.find_by(vote_hash)
+
+    if vote
+      vote.value = vote.value == value ? 0 : value
+      vote.save
+    else
+      vote_hash[:value] = value
+      Vote.create!(vote_hash)
+    end
+
+    redirect_to url_for(controller: params[:controller], id: params[:id], action: 'show')
+  end
+
   def post_params
     params.require(:post).permit(:title, :url, :content, sub_ids: [])
   end

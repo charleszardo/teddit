@@ -47,7 +47,6 @@ class Post < ActiveRecord::Base
   def score
     Vote.select("value")
         .where(votable_id: self.id, votable_type: self.class.to_s)
-        .inject { |sum, num| sum + num }
-        .value
+        .inject(0) { |sum, num| sum + num.value }
   end
 end

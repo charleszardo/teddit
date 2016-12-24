@@ -1,5 +1,5 @@
 <h1><%= @post.title %></h1>
-<% if @post.url %>
+<% if !@post.url.empty? %>
   <h3><%= link_to "url", @post.url %></h3>
 <% end %>
 <h3>by <%= link_to @post.author_name, user_url(@post.author) %></h3>

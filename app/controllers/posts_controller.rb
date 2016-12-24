@@ -68,16 +68,19 @@ class PostsController < ApplicationController
                   votable_type: params[:controller].classify }
 
     vote = Vote.find_by(vote_hash)
-
-    if vote
-      vote.value = vote.value == value ? 0 : value
-      vote.save
-    else
-      vote_hash[:value] = value
-      Vote.create!(vote_hash)
-    end
+    vote ? update_vote(vote) : new_vote(vote_hash, value)
 
     redirect_to url_for(controller: params[:controller], id: params[:id], action: 'show')
+  end
+
+  def update_vote(vote)
+    vote.value = vote.value == value ? 0 : value
+    vote.save
+  end
+
+  def new_vote(vote_hash, value)
+    vote_hash[:value] = value
+    Vote.create!(vote_hash)
   end
 
   def post_params

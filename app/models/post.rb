@@ -49,4 +49,11 @@ class Post < ActiveRecord::Base
         .where(votable_id: self.id, votable_type: self.class.to_s)
         .inject(0) { |sum, num| sum + num.value }
   end
+
+  def video
+    return nil if self.url.nil?
+
+    params = Rack::Utils.parse_query URI(self.url).query
+    @video = Yt::Video.new id: params["v"]
+  end
 end

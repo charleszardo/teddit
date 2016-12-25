@@ -3,6 +3,15 @@
   <h3><%= link_to "url", @post.url %></h3>
 <% end %>
 <h3>by <%= link_to @post.author_name, user_url(@post.author) %></h3>
+<h4><%= @post.video.title %></h4>
+<p><%= @post.video.description %></p>
+<% video_url = "https://www.youtube.com/embed/#{@post.video.id}" %>
+<iframe
+  width="560"
+  height="315"
+  src="<%= video_url %>"
+  frameborder="0" allowfullscreen>
+</iframe>
 <h3>score: <%= @post.score %></h3>
 <%= link_to "upvote", upvote_post_url(@post.id), method: :post %>
 <%= link_to "downvote", downvote_post_url(@post.id), method: :post %>

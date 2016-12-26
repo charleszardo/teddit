@@ -10,7 +10,11 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
+    params = Rack::Utils.parse_query URI(@post.url).query
 
+    @video = Yt::Video.new id: params["v"]
+    @post.title = @video.title
+    
     if @post.save
       redirect_to sub_url(@post.subs.first)
     else

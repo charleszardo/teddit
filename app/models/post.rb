@@ -12,8 +12,12 @@
 #
 
 class Post < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :finders]
+
   validates :title, :author, presence: true
   validates :subs, length: { minimum: 1 , message: "please select at least one sub"}
+  validates :slug, presence: true, uniqueness: true
 
   belongs_to :author, class_name: "User"
 

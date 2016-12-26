@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161226202420) do
+ActiveRecord::Schema.define(version: 20161226204640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,9 +59,11 @@ ActiveRecord::Schema.define(version: 20161226202420) do
     t.integer  "author_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "slug"
   end
 
   add_index "posts", ["author_id"], name: "index_posts_on_author_id", using: :btree
+  add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
   add_index "posts", ["title"], name: "index_posts_on_title", using: :btree
 
   create_table "subs", force: :cascade do |t|
@@ -70,9 +72,11 @@ ActiveRecord::Schema.define(version: 20161226202420) do
     t.integer  "moderator_id", null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "slug"
   end
 
   add_index "subs", ["moderator_id"], name: "index_subs_on_moderator_id", using: :btree
+  add_index "subs", ["slug"], name: "index_subs_on_slug", unique: true, using: :btree
   add_index "subs", ["title"], name: "index_subs_on_title", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -82,10 +86,12 @@ ActiveRecord::Schema.define(version: 20161226202420) do
     t.string   "session_token",   null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "slug"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["session_token"], name: "index_users_on_session_token", unique: true, using: :btree
+  add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|

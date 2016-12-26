@@ -11,7 +11,10 @@
 #
 
 class Sub < ActiveRecord::Base
-  validates :title, presence: true, uniqueness: true
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :finders]
+
+  validates :title, :slug, presence: true, uniqueness: true
   validates :moderator, presence: true
 
   belongs_to :moderator, class_name: "User"

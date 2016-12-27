@@ -15,11 +15,15 @@ module Voting
   end
 
   module ClassMethods
-    def all_with_scores
-      Post.select("posts.*, SUM(votes.value) AS vote_score")
+    def with_scores(collection)
+      collection.select("#{table_name}.*, SUM(votes.value) AS vote_score")
           .joins(:votes)
-          .group("posts.id")
+          .group("#{table_name}.id")
           .order("vote_score DESC")
+    end
+
+    def table_name
+      self.name.underscore.pluralize
     end
   end
 end

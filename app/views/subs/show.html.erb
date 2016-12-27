@@ -3,8 +3,8 @@
 <p><%= @sub.description %></p>
 <h4>Posts</h4>
 <ul>
-  <% @sub.posts.sort_by { |post| post.score }.reverse!.each do |post| %>
-    <li><%= link_to post.title, post_url(post) %><%= "(#{post.score})" %></li>
+  <% @posts.each do |post| %>
+    <li><%= link_to post.title, post_url(post) %><%= "(#{post.vote_score})" %></li>
   <% end %>
 </ul>
 <% if logged_in? %>

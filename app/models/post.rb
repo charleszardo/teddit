@@ -26,6 +26,13 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :votes, as: :votable
 
+  def self.all_with_scores
+    Post.select("posts.*, SUM(votes.value) AS vote_score")
+                 .joins(:votes)
+                 .group("posts.id")
+                 .order("vote_score DESC")
+  end
+
   def author_name
     self.author.username
   end

@@ -13,25 +13,17 @@
 
 class Post < ActiveRecord::Base
   extend FriendlyId
+  include Voting
+
   friendly_id :title, use: [:slugged, :finders]
 
-  validates :title, :author, presence: true
+  validates :title, presence: true
   validates :subs, length: { minimum: 1 , message: "please select at least one sub"}
   validates :slug, presence: true, uniqueness: true
-
-  belongs_to :author, class_name: "User"
 
   has_many :postings, dependent: :destroy, inverse_of: :post
   has_many :subs, through: :postings, source: :sub
   has_many :comments
-  has_many :votes, as: :votable
-
-  def self.all_with_scores
-    Post.select("posts.*, SUM(votes.value) AS vote_score")
-                 .joins(:votes)
-                 .group("posts.id")
-                 .order("vote_score DESC")
-  end
 
   def author_name
     self.author.username

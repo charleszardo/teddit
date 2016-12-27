@@ -48,7 +48,7 @@ class Post < ActiveRecord::Base
   end
 
   def comments_by_parent_with_scores
-    comments = Comment.with_scores(self.comments)
+    comments = Comment.get_scores(self.comments)
 
     comments_by_parent(comments)
   end

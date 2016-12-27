@@ -45,7 +45,7 @@ class SubsController < ApplicationController
 
   def show
     @sub = Sub.find(params[:id])
-    @posts = Post.with_scores(@sub.posts)
+    @posts = Post.get_scores(@sub.posts)
 
     render :show
   end

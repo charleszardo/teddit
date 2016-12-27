@@ -23,12 +23,11 @@
 </ul>
 <h3>comments</h3>
 <ul>
-  <% comments_by_parent = @post.comments_by_parent %>
-  <% top_level_comments = comments_by_parent[nil] %>
+  <% top_level_comments = @comments_by_parent[nil] %>
   <% top_level_comments.sort_by { |comment| comment.score }.reverse!.each do |top_level_comment| %>
     <li><%= render("comments/comment",
             comment: top_level_comment,
-            comments_by_parent: comments_by_parent) %></li>
+            comments_by_parent: @comments_by_parent) %></li>
   <% end %>
 </ul>
 <% if current_user %>

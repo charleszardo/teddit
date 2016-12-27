@@ -37,20 +37,20 @@ class Post < ActiveRecord::Base
     self.author == user
   end
 
-  def comments_by_parent
+  def comments_by_parent(comments=self.comments)
     comments_hash = Hash.new { |h, k| h[k] = []}
 
-    self.comments.includes(:author).each do |comment|
+    comments.includes(:author).each do |comment|
       comments_hash[comment.parent_comment_id] << comment
     end
 
     comments_hash
   end
 
-  def score
-    Vote.select("value")
-        .where(votable_id: self.id, votable_type: self.class.to_s)
-        .inject(0) { |sum, num| sum + num.value }
+  def comments_by_parent_with_scores
+    comments = Comment.with_scores(self.comments)
+
+    comments_by_parent(comments)
   end
 
   def video

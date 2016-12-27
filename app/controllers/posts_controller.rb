@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
     @video = Yt::Video.new id: params["v"]
     @post.title = @video.title
-    
+
     if @post.save
       redirect_to sub_url(@post.subs.first)
     else
@@ -42,6 +42,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comments_by_parent = @post.comments_by_parent_with_scores
 
     render :show
   end

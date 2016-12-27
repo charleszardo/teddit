@@ -17,7 +17,7 @@ module Voting
   module ClassMethods
     def with_scores(collection)
       collection.select("#{table_name}.*, SUM(votes.value) AS vote_score")
-          .joins(:votes)
+          .joins("LEFT JOIN votes ON votes.votable_id = #{table_name}.id AND votes.votable_type = '#{table_name.classify}'")
           .group("#{table_name}.id")
           .order("vote_score DESC")
     end

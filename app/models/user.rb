@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   has_many :comments, foreign_key: :author_id
   has_many :votes, foreign_key: :voter_id
   has_many :subscriptions
-  has_many :subscribed_subs, through: :subscriptions, foreign_key: :sub_id
+  has_many :subscribed_subs, through: :subscriptions, source: :sub
 
   after_initialize :ensure_session_token
 
@@ -48,6 +48,10 @@ class User < ActiveRecord::Base
     self.session_token = generate_token
     self.save
     self.session_token
+  end
+
+  def subscribed?(sub)
+    subscribed_subs.include?(sub)
   end
 
   private

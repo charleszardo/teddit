@@ -28,8 +28,16 @@ module Voting
 
   module ClassMethods
     def get_scores(collection)
-      collection.select("#{table_name}.*, SUM(votes.value) AS vote_score")
+      collection.select("#{table_name}.*, COALESCE(SUM(votes.value), 0) AS vote_score")
           .joins("LEFT JOIN votes ON votes.votable_id = #{table_name}.id AND votes.votable_type = '#{table_name.classify}'")
+          .group("#{table_name}.id")
+          .order("vote_score DESC")
+    end
+
+    def get_hot_scores(collection)
+      collection.select("#{table_name}.*, COALESCE(SUM(votes.value), 0) AS vote_score")
+          .joins("LEFT JOIN votes ON votes.votable_id = #{table_name}.id AND votes.votable_type = '#{table_name.classify}'")
+          .where("votes.created_at > :hotness_range OR votes.created_at IS NULL", :hotness_range  => HOTNESS_RANGE)
           .group("#{table_name}.id")
           .order("vote_score DESC")
     end

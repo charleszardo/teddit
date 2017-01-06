@@ -1,14 +1,17 @@
 class SubscriptionsController < ApplicationController
+  before_action :require_login, only: [:new, :create]
+
   def create
-    subscription = Subscription.create(sub: params[:sub_id], user: current_user)
+    subscription = Subscription.find_or_create_by(sub_id: params[:sub_id], user_id: current_user.id)
 
     redirect_to sub_url(params[:sub_id])
   end
 
   def destroy
-    subscription = Subscription.find(sub: params[:sub_id, user: current_user])
+    subscription = Subscription.find(params[:id])
+    subs_sub = subscription.sub
     subscription.destroy
 
-    redirect_to sub_url(params[:sub_id])
+    redirect_to sub_url(subs_sub)
   end
 end

@@ -2,6 +2,14 @@
 <h4>Description</h4>
 <p><%= @sub.description %></p>
 <h4>Posts</h4>
+<%= current_user.subscribed?(@sub) %>
+<% if logged_in? %>
+  <% if @subscribed %>
+    <%= button_to "unsubscribe", subscription_url(@subscription), method: :delete %>
+  <% else %>
+    <%= button_to "subscribe", sub_subscriptions_url(@sub.id), method: :post %>
+  <% end %>
+<% end %>
 <ul>
   <% @posts.each do |post| %>
     <li><%= link_to post.title, post_url(post) %><%= "(#{post.vote_score})" %></li>

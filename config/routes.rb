@@ -7,9 +7,10 @@ Rails.application.routes.draw do
 
   resources :subs do
     resources :posts, only: [:new, :create]
-
-    resources :subscriptions, only: [:create, :destroy]
+    resources :subscriptions, only: [:create]
   end
+
+  resources :subscriptions, only: [:destroy]
 
   resources :posts, only: [:show, :edit, :update, :destroy] do
     resources :comments, only: [:new]

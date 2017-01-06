@@ -47,6 +47,12 @@ class SubsController < ApplicationController
     @sub = Sub.find(params[:id])
     @posts = @sub.posts
     @posts = Post.get_scores(@posts)
+    @subscribed = false
+
+    if current_user && current_user.subscribed?(@sub)
+      @subscribed = true
+      @subscription = Subscription.find_by(sub: @sub, user: current_user)
+    end
 
     render :show
   end

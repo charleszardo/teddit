@@ -20,6 +20,8 @@ class Sub < ActiveRecord::Base
   belongs_to :moderator, class_name: "User"
   has_many :postings, dependent: :destroy, inverse_of: :sub
   has_many :posts, through: :postings, source: :post
+  has_many :subscriptions
+  has_many :subscribers, through: :subscriptions, foreign_key: :user_id
 
   def is_owner?(user)
     self.moderator == user

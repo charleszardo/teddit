@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   has_many :posts, foreign_key: :author_id
   has_many :comments, foreign_key: :author_id
   has_many :votes, foreign_key: :voter_id
+  has_many :subscriptions
+  has_many :subscribed_subs, through: :subscriptions, foreign_key: :sub_id
 
   after_initialize :ensure_session_token
 

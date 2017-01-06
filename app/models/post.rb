@@ -39,9 +39,10 @@ class Post < ActiveRecord::Base
 
   def comments_by_parent(comments=self.comments)
     comments_hash = Hash.new { |h, k| h[k] = []}
-
-    comments.includes(:author).each do |comment|
-      comments_hash[comment.parent_comment_id] << comment
+    unless comments.nil?
+      comments.includes(:author).each do |comment|
+        comments_hash[comment.parent_comment_id] << comment
+      end
     end
 
     comments_hash

@@ -5,3 +5,12 @@
     <li><%= link_to post.title, post_url(post) %></li>
   <% end %>
 </ul>
+<h3>Comments</h3>
+<ul>
+  <% @user.comments.each do |comment| %>
+    <ul>
+      <li><%= link_to comment.post_title, post_url(comment.post) %></li>
+      <li><%= comment.content %></li>
+    </ul>
+  <% end %>
+</ul>

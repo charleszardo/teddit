@@ -24,4 +24,8 @@ class Comment < ActiveRecord::Base
   def author_username
     self.author.username
   end
+
+  def post_title
+    post.title
+  end
 end

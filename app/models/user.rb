@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
-  has_many :subs
+  has_many :subs, foreign_key: :moderator_id
   has_many :posts, foreign_key: :author_id
   has_many :comments, foreign_key: :author_id
   has_many :votes, foreign_key: :voter_id
@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
 
   def subscribed?(sub)
     subscribed_subs.include?(sub)
+  end
+
+  def owns?(item)
+    assoc = item.class.name.downcase.pluralize
+    self.send(assoc).include?(item)
   end
 
   private

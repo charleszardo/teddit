@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   def require_owner
     item = Object.const_get(controller_name.classify).find(params[:id])
-    unless item.is_owner?(current_user)
+    unless logged_in? && current_user.owns?(item)
       redirect_to root_url
     end
   end

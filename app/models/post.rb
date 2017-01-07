@@ -33,10 +33,6 @@ class Post < ActiveRecord::Base
     self.sub.title
   end
 
-  def is_owner?(user)
-    self.author == user
-  end
-
   def comments_by_parent(comments=self.comments)
     comments_hash = Hash.new { |h, k| h[k] = []}
     unless comments.nil?

@@ -1,5 +1,6 @@
 class SubscriptionsController < ApplicationController
-  before_action :require_login, only: [:new, :create]
+  before_action :require_login, only: [:create]
+  before_action :require_owner, only: [:destroy]
 
   def create
     subscription = Subscription.find_or_create_by(sub_id: params[:sub_id], user_id: current_user.id)

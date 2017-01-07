@@ -22,8 +22,4 @@ class Sub < ActiveRecord::Base
   has_many :posts, through: :postings, source: :post
   has_many :subscriptions
   has_many :subscribers, through: :subscriptions, source: :user
-
-  def is_owner?(user)
-    self.moderator == user
-  end
 end

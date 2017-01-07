@@ -59,6 +59,60 @@ class User < ActiveRecord::Base
     self.send(assoc).include?(item)
   end
 
+  def vote_count
+    Vote.joins("JOIN posts ON posts.id = votes.votable_id AND votes.votable_type = 'Post'").group('posts.id').sum('votes.value')
+    # Vote.select("SUM(votes.value) AS value")
+    #     .joins("posts ON posts.id = votes.votable_id AND votes.votable_type = 'Post'")
+    #     .where("posts.author_id = ?", self.id)
+    #     .group("posts.id")
+    #     # .pluck("value")
+    #
+    #     User.joins(:valuables).group('users.id').sum('valuables.value')
+  end
+  # TODO improve vote count query
+  # def vote_count
+  #   Vote.select("SUM(votes.value) as count")
+  #       .joins("posts ON posts.id = votes.votable_id AND votes.votable_type = 'Post'")
+  #       .joins("comments ON comments.id = votes.votable_id AND votes.votable_type = 'Comment'")
+  #       .where("posts.author_id = ? OR comments.author_id = ?", self.id, self.id)
+  # end
+
+  def vote_count
+    query = <<-SQL
+    SELECT
+      SUM(votes.id)
+    FROM
+      votes
+    JOIN
+      posts ON votes.votable_id = posts.id AND votes.votable_type = 'Posts'
+    JOIN
+      comments ON votes.votable_id = comments.id AND comments.votable_type = 'Comments'
+    WHERE
+      posts.author_id = :user_id
+    WHERE
+      comments.author_id = :user_id
+    GROUP BY
+      votes.id
+    SQL
+
+    db.execute(query, user_id: self.id)
+  end
+
+  def get_scores(collection)
+    collection.select("#{table_name}.*, COALESCE(SUM(votes.value), 0) AS vote_score")
+        .joins("LEFT JOIN votes ON votes.votable_id = #{table_name}.id AND votes.votable_type = '#{table_name.classify}'")
+        .group("#{table_name}.id")
+        .order("vote_score DESC")
+  end
+
+  def get_hot_scores(collection)
+    collection.select("#{table_name}.*, COALESCE(SUM(votes.value), 0) AS vote_score")
+        .joins("LEFT JOIN votes ON votes.votable_id = #{table_name}.id AND votes.votable_type = '#{table_name.classify}'")
+        .where("votes.created_at > :hotness_range OR votes.created_at IS NULL", :hotness_range  => HOTNESS_RANGE)
+        .group("#{table_name}.id")
+        .order("vote_score DESC")
+  end
+
   private
   def generate_token
     SecureRandom::urlsafe_base64(16)

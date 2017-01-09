@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :subscribed_subs, through: :subscriptions, source: :sub
   has_many :subscribed_subs_posts, through: :subscribed_subs, source: :posts
+  has_many :comment_votes, through: :comments, source: :votes
+  has_many :post_votes, through: :posts, source: :votes
 
   after_initialize :ensure_session_token
 
@@ -61,40 +63,16 @@ class User < ActiveRecord::Base
   end
 
   def vote_count
-    Vote.joins("JOIN posts ON posts.id = votes.votable_id AND votes.votable_type = 'Post'").group('posts.id').sum('votes.value')
-    # Vote.select("SUM(votes.value) AS value")
-    #     .joins("posts ON posts.id = votes.votable_id AND votes.votable_type = 'Post'")
-    #     .where("posts.author_id = ?", self.id)
-    #     .group("posts.id")
-    #     # .pluck("value")
-    #
-    #     User.joins(:valuables).group('users.id').sum('valuables.value')
+    # TODO improve querying
+    comments_vote_count + posts_vote_count
   end
-  # TODO improve vote count query
-  # def vote_count
-  #   Vote.select("SUM(votes.value) as count")
-  #       .joins("posts ON posts.id = votes.votable_id AND votes.votable_type = 'Post'")
-  #       .joins("comments ON comments.id = votes.votable_id AND votes.votable_type = 'Comment'")
-  #       .where("posts.author_id = ? OR comments.author_id = ?", self.id, self.id)
-  # end
 
-  def vote_count
-    query = <<-SQL
-    SELECT
-      SUM(votes.id)
-    FROM
-      votes
-    JOIN
-      posts ON votes.votable_id = posts.id AND votes.votable_type = 'Posts'
-    JOIN
-      comments ON votes.votable_id = comments.id AND votes.votable_type = 'Comments'
-    WHERE
-      posts.author_id = #{self.id} OR comments.author_id = #{self.id}
-    GROUP BY
-      votes.id
-    SQL
+  def comments_vote_count
+    comment_votes.sum(:value)
+  end
 
-    ActiveRecord::Base.connection.execute(query).first
+  def posts_vote_count
+    post_votes.sum(:value)
   end
 
   def get_scores(collection)

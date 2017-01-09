@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :votes, foreign_key: :voter_id
   has_many :subscriptions
   has_many :subscribed_subs, through: :subscriptions, source: :sub
+  has_many :subscribed_subs_posts, through: :subscribed_subs, source: :posts
 
   after_initialize :ensure_session_token
 
@@ -86,16 +87,14 @@ class User < ActiveRecord::Base
     JOIN
       posts ON votes.votable_id = posts.id AND votes.votable_type = 'Posts'
     JOIN
-      comments ON votes.votable_id = comments.id AND comments.votable_type = 'Comments'
+      comments ON votes.votable_id = comments.id AND votes.votable_type = 'Comments'
     WHERE
-      posts.author_id = :user_id
-    WHERE
-      comments.author_id = :user_id
+      posts.author_id = #{self.id} OR comments.author_id = #{self.id}
     GROUP BY
       votes.id
     SQL
 
-    db.execute(query, user_id: self.id)
+    ActiveRecord::Base.connection.execute(query).first
   end
 
   def get_scores(collection)

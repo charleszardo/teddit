@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resource :session, only: [:new, :create, :destroy]
 
+  resource :home, only: [:show]
+
   resources :subs do
     resources :posts, only: [:new, :create]
     resources :subscriptions, only: [:create]

@@ -4,7 +4,7 @@ class HomesController < ApplicationController
   def show
     @user = current_user
     posts = current_user.subscribed_subs_posts
-    @posts = Post.get_scores(@posts)
+    @posts = Post.get_scores(posts)
     render :show
   end
 end

@@ -20,14 +20,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.new(user_params)
 
     if @user.save
       login_user!(@user)
       redirect_to root_url
     else
-      flash[:errors] = "user creation error"
-      redirect_to new_user_url
+      flash[:errors] = @user.errors.full_messages
+      render :new
     end
   end
 

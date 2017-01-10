@@ -18,15 +18,13 @@ RSpec.describe User, type: :model do
       it "returns user if credentials are correct" do
         user = create(:user)
         expect(User.find_by_username_and_password("test_user", "abcdef")).to eq(user)
-      end
-
-      it "returns nil if credentials are incorrect" do
-
+        expect(User.find_by_username_and_password("test_user", "123456")).to be(nil)
       end
     end
   end
 
   describe "validations" do
+    subject { create(:user) }
     it { should validate_presence_of(:username) }
     it { should validate_presence_of(:session_token) }
     it { should validate_presence_of(:password_digest) }

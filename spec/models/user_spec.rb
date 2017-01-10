@@ -15,10 +15,27 @@ RSpec.describe User, type: :model do
     end
 
     describe "::find_by_username_and_password" do
-      it "returns user if credentials are correct" do
+      it "finds users based on credentials" do
         user = create(:user)
         expect(User.find_by_username_and_password("test_user", "abcdef")).to eq(user)
         expect(User.find_by_username_and_password("test_user", "123456")).to be(nil)
+      end
+    end
+
+    describe "#is_password?" do
+      it "determines whether password belongs to user" do
+        user = create(:user)
+        expect(user.is_password?("abcdef")).to be(true)
+        expect(user.is_password?("123456")).to be(false)
+      end
+    end
+
+    describe "#reset_session_token!" do
+      it "resets session token" do
+        user = create(:user)
+        session_token = user.session_token
+        user.reset_session_token!
+        expect(user.session_token).to_not eq(session_token)
       end
     end
   end

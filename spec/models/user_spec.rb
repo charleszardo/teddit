@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
 
     describe "#is_password?" do
       it "determines whether password belongs to user" do
-        user = create(:user)
+        user = build(:user)
         expect(user.is_password?("abcdef")).to be(true)
         expect(user.is_password?("123456")).to be(false)
       end
@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
 
     describe "#reset_session_token!" do
       it "resets session token" do
-        user = create(:user)
+        user = build(:user)
         session_token = user.session_token
         user.reset_session_token!
         expect(user.session_token).to_not eq(session_token)
@@ -41,7 +41,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "validations" do
-    subject { create(:user) }
+    subject { build(:user) }
     it { should validate_presence_of(:username) }
     it { should validate_presence_of(:session_token) }
     it { should validate_presence_of(:password_digest) }

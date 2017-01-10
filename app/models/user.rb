@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username, use: [:slugged, :finders]
 
-  validates :username, :email, presence: true
+  validates :username, :email, presence: true, uniqueness: true
   validates :password_digest, :session_token, :slug, presence: true, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
 

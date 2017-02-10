@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
-  before_action :require_no_login, only: [:new, :create]
-  before_action :require_login, only: [:destroy]
+  # before_action :require_no_login, only: [:new, :create]
+  # before_action :require_login, only: [:destroy]
 
   def new
     render :new
@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     user = User.find_by_username_and_password(session_params[:username],
                                               session_params[:password])
     if user
-      login_user!(user)
+      sign_in(user)
       redirect_to root_url
     else
       flash[:errors] = "invalid credentials"
@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
   def destroy
     if current_user
-      logout_user!(current_user)
+      sign_out(current_user)
     else
       flash[:errors] = "no one's logged in..."
     end

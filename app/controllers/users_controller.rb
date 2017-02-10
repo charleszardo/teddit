@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_no_login, only: [:new, :create]
+  # before_action :require_no_login, only: [:new, :create]
 
   def index
     @users = User.all
@@ -20,10 +20,12 @@ class UsersController < ApplicationController
   end
 
   def create
+    p "OKAY CREATE IS HAPPENIN"
     @user = User.new(user_params)
-
+    fail
     if @user.save
-      login_user!(@user)
+      # login_user!(@user)
+      sign_up(@user)
       redirect_to root_url
     else
       flash[:errors] = @user.errors.full_messages

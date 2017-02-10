@@ -6,14 +6,16 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
   helper_method :current_user
 
-  def login_user!(user)
-    session[:session_token] = user.reset_session_token!
-  end
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def logout_user!(user)
-    session[:session_token] = nil
-    user.reset_session_token!
-  end
+  # def login_user!(user)
+  #   session[:session_token] = user.reset_session_token!
+  # end
+  #
+  # def logout_user!(user)
+  #   session[:session_token] = nil
+  #   user.reset_session_token!
+  # end
 
   # def current_user
   #   session[:session_token] ? User.find_by_session_token(session[:session_token]) : nil
@@ -24,18 +26,25 @@ class ApplicationController < ActionController::Base
     user_signed_in?
   end
 
-  private
-  def require_login
-    unless current_user
-      redirect_to root_url
-    end
+  protected
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_in) << :username
+    devise_parameter_sanitizer.for(:sign_up) << :username
+    devise_parameter_sanitizer.for(:account_update) << :username
   end
 
-  def require_no_login
-    if current_user
-      redirect_to root_url
-    end
-  end
+  private
+  # def require_login
+  #   unless current_user
+  #     redirect_to root_url
+  #   end
+  # end
+  #
+  # def require_no_login
+  #   if current_user
+  #     redirect_to root_url
+  #   end
+  # end
 
   def require_owner
     item = Object.const_get(controller_name.classify).find(params[:id])

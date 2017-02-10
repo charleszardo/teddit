@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
-  root 'subs#index'
+  # root 'subs#index'
+  root to: 'application#angular'
 
   resources :users, only: [:show, :index, :new, :create]
 

@@ -15,12 +15,13 @@ class ApplicationController < ActionController::Base
     user.reset_session_token!
   end
 
-  def current_user
-    session[:session_token] ? User.find_by_session_token(session[:session_token]) : nil
-  end
+  # def current_user
+  #   session[:session_token] ? User.find_by_session_token(session[:session_token]) : nil
+  # end
 
   def logged_in?
-    !current_user.nil?
+    # !current_user.nil?
+    user_signed_in?
   end
 
   private

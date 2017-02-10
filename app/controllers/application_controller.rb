@@ -3,28 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :logged_in?
-  helper_method :current_user
-
   before_action :configure_permitted_parameters, if: :devise_controller?
-
-  # def login_user!(user)
-  #   session[:session_token] = user.reset_session_token!
-  # end
-  #
-  # def logout_user!(user)
-  #   session[:session_token] = nil
-  #   user.reset_session_token!
-  # end
-
-  # def current_user
-  #   session[:session_token] ? User.find_by_session_token(session[:session_token]) : nil
-  # end
-
-  def logged_in?
-    # !current_user.nil?
-    user_signed_in?
-  end
 
   protected
   def configure_permitted_parameters
@@ -34,21 +13,21 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  # def require_login
-  #   unless current_user
-  #     redirect_to root_url
-  #   end
-  # end
-  #
-  # def require_no_login
-  #   if current_user
-  #     redirect_to root_url
-  #   end
-  # end
+  def require_login
+    unless user_signed_in?
+      redirect_to root_url
+    end
+  end
+
+  def require_no_login
+    if user_signed_in?
+      redirect_to root_url
+    end
+  end
 
   def require_owner
     item = Object.const_get(controller_name.classify).find(params[:id])
-    unless logged_in? && current_user.owns?(item)
+    unless user_signed_in? && current_user.owns?(item)
       redirect_to root_url
     end
   end

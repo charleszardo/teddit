@@ -2,7 +2,7 @@
 <h4>Description</h4>
 <p><%= @sub.description %></p>
 <h4>Posts</h4>
-<% if logged_in? %>
+<% if user_signed_in? %>
   <% if @subscribed %>
     <%= button_to "unsubscribe", subscription_url(@subscription), method: :delete %>
   <% else %>
@@ -14,7 +14,7 @@
     <li><%= link_to post.title, post_url(post) %><%= "(#{post.vote_score})" %></li>
   <% end %>
 </ul>
-<% if logged_in? %>
+<% if user_signed_in? %>
   <%= link_to "add post", new_sub_post_url(@sub.id) %>
   <br>
 <% end %>

@@ -6,7 +6,11 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-
+<body ng-app="teddit">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <ui-view></ui-view>
+    </div>
+  </div>
 </body>
 </html>

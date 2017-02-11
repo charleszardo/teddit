@@ -7,27 +7,6 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<header>
-<h1 id="logo">TEDDIT</h1>
-<% if user_signed_in? %>
-  <h3>Welcome, <%= current_user.username %></h3>
-  <%= button_to "log out", session_url, method: :delete %>
-<% else %>
-  <%= link_to "sign up", new_user_url %>
-  <%= link_to "sign in", new_session_url %>
-<% end %>
-</header>
 
-<%= yield %>
-
-<footer>
-  <% if current_page?("/") || current_page?("/subs") %>
-    <% if user_signed_in? %>
-      <%= link_to "Add Sub", new_sub_url %>
-    <% end %>
-  <% else %>
-    <%= link_to "Home", root_url %>
-  <% end %>
-</footer>
 </body>
 </html>

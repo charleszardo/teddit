@@ -1,9 +1,0 @@
-<h3>All Subs</h3>
-<ul>
-  <% @subs.each do |sub| %>
-    <li>
-      <%= link_to sub.title, sub_url(sub) %>
-    </li>
-  <% end %>
-</ul>
-<%= paginate @subs %>

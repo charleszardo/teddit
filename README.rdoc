@@ -1,9 +1,0 @@
-= teddit
-
-A reddit-clone used specifically to find and share TED talks.
-
-== TODO
-* Implement search
-* Add front-end
-* Create DB seed
-* Write tests

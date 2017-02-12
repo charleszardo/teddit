@@ -40,7 +40,12 @@ function($stateProvider, $urlRouterProvider) {
           $state.go('home');
         })
       }]
-    });
+    })
+    .state('subs', {
+      url: '/subs',
+      templateUrl: 'subs/_subs.html',
+      controller: 'SubsCtrl'
+    })
 
   $urlRouterProvider.otherwise('home');
 }])

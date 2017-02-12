@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 
   resources :users
 
-  resources :subs
+  resources :subs, only: [:index, :show, :create]
 end

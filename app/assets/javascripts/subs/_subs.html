@@ -1,6 +1,6 @@
 <div>
   <div ng-repeat="sub in subs">
-    <h3>{{ sub.title }}</h3>
+    <h3><a ng-href="#!/subs/{{ sub.id }}">{{ sub.title }}</a></h3>
     <p>{{ sub.description }}</p>
   </div>
 </div>

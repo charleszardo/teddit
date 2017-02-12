@@ -7,5 +7,12 @@ app.factory('subsService', ['$http', function($http) {
     })
   }
 
+  o.get = function(id) {
+    console.log(id);
+    return $http.get('/subs/' + id + '.json').then(function(success) {
+      return success.data;
+    })
+  }
+
   return o;
 }]);

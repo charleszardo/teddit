@@ -44,7 +44,22 @@ function($stateProvider, $urlRouterProvider) {
     .state('subs', {
       url: '/subs',
       templateUrl: 'subs/_subs.html',
-      controller: 'SubsCtrl'
+      controller: 'SubsCtrl',
+      resolve: {
+        subs: ['$stateParams', 'subsService', function($stateParams, subsService) {
+          return subsService.getAll();
+        }]
+      }
+    })
+    .state('sub', {
+      url: '/subs/{id}',
+      templateUrl: 'subs/_sub.html',
+      controller: 'SubCtrl',
+      resolve: {
+        sub: ['$stateParams', 'subsService', function($stateParams, subsService) {
+          return subsService.get($stateParams.id);
+        }]
+      }
     })
 
   $urlRouterProvider.otherwise('home');

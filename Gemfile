@@ -12,6 +12,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 gem 'devise', '~> 3.4.0'
 gem 'angular-rails-templates'
+gem 'angular_rails_csrf'
 
 gem 'annotate'
 gem 'yt', '~> 0.28.0'

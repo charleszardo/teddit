@@ -26,9 +26,12 @@ class SubsController < ApplicationController
   def create
     @sub = Sub.new(sub_params)
     @sub.moderator = current_user
-    @sub.save
 
-    respond_with @sub, location: ""
+    if @sub.save
+      render 'subs/show.json.jbuilder', status: 200
+    else
+      render json: {errors: @sub.errors}, status: 422
+    end
   end
 
   # def update

@@ -8,8 +8,13 @@ app.factory('subsService', ['$http', function($http) {
   }
 
   o.get = function(id) {
-    console.log(id);
     return $http.get('/subs/' + id + '.json').then(function(success) {
+      return success.data;
+    })
+  }
+
+  o.create = function(data) {
+    return $http.post('/subs', data).then(function(success) {
       return success.data;
     })
   }

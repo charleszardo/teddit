@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214052537) do
+ActiveRecord::Schema.define(version: 20170214053009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "postings", force: :cascade do |t|
+    t.integer  "post_id",    null: false
+    t.integer  "sub_id",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "postings", ["post_id", "sub_id"], name: "index_postings_on_post_id_and_sub_id", unique: true, using: :btree
+  add_index "postings", ["post_id"], name: "index_postings_on_post_id", using: :btree
+  add_index "postings", ["sub_id"], name: "index_postings_on_sub_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "title",      null: false

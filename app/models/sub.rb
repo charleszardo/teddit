@@ -7,8 +7,8 @@ class Sub < ActiveRecord::Base
   validates :moderator, presence: true
 
   belongs_to :moderator, class_name: "User"
-  # has_many :postings, dependent: :destroy, inverse_of: :sub
-  # has_many :posts, through: :postings, source: :post
+  has_many :postings, dependent: :destroy, inverse_of: :sub
+  has_many :posts, through: :postings, source: :post
   # has_many :subscriptions
   # has_many :subscribers, through: :subscriptions, source: :user
 end
